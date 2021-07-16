@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityExistsException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -36,6 +37,13 @@ public class ApiExceptionControllerAdvice {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ExceptionDTO> defaultHandler(NoSuchElementException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ExceptionDTO(e.getMessage(), HttpStatus.NOT_FOUND.value()));
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ExceptionDTO> defaultHandler(EntityExistsException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDTO(e.getMessage(), HttpStatus.NOT_FOUND.value()));
