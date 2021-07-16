@@ -42,6 +42,9 @@ public class Room {
         this.roomLength = roomLength;
     }
 
+    public Room() {
+    }
+
     public long getId() {
         return id;
     }
