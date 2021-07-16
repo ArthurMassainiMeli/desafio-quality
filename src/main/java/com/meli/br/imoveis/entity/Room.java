@@ -43,7 +43,6 @@ public class Room {
     }
 
     public Room() {
-
     }
 
     public long getId() {
