@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @SpringBootTest
 public class PropertyServiceTest {
@@ -54,6 +53,7 @@ public class PropertyServiceTest {
 
 
     @Test
+    @DisplayName("Dada uma propiedade retorna a área total.")
     public void givenPropertyWithRoomsShouldReturnTotalArea(){
 
         Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
@@ -89,6 +89,7 @@ public class PropertyServiceTest {
     }
 
     @Test
+    @DisplayName("Valida se um bairro está cadastrado no repositorio.")
     public void successWhenDistrictExistInRepository(){
 
         Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
@@ -98,6 +99,7 @@ public class PropertyServiceTest {
     }
 
     @Test
+    @DisplayName("Retorna um erro se o bairro não está cadastrado no repositorio.")
     public void failWhenDistrictNotExistInRepository(){
 
         Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(false);
@@ -108,6 +110,7 @@ public class PropertyServiceTest {
     }
 
     @Test
+    @DisplayName("Retorna o maior comôdo de uma propriedade.")
     public void shouldReturnTheBiggestRoom(){
 
         Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
@@ -124,6 +127,7 @@ public class PropertyServiceTest {
     }
 
     @Test
+    @DisplayName("Retorna o valor da propiedade por metros quadrados.")
     public void successWhenCauclValuePerMeter(){
 
         Mockito.when(districtRepository.getById(property.getPropDistrict())).thenReturn(new District("NORTH", new BigDecimal("100.00")));
