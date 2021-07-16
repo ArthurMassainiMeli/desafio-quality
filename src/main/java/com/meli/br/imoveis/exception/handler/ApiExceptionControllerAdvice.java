@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityExistsException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
-public class ApiExecprtionControllerAdvice {
+public class ApiExceptionControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> validationError(MethodArgumentNotValidException e) {
@@ -29,7 +30,6 @@ public class ApiExecprtionControllerAdvice {
             errors.put(fieldName, errorMessage);
 
         });
-
         return ResponseEntity
                 .badRequest()
                 .body(errors);
@@ -40,6 +40,13 @@ public class ApiExecprtionControllerAdvice {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDTO(e.getMessage(), HttpStatus.NOT_FOUND.value()));
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ExceptionDTO> defaultHandler(EntityExistsException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ExceptionDTO(e.getMessage(), HttpStatus.CONFLICT.value()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
