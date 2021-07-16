@@ -25,7 +25,9 @@ public class RoomService {
     }
 
     public List<RoomTotalDTO> getRoomsWithAreaTotal(List<Room> rooms){
-        return rooms.stream().map(r -> RoomTotalDTO.convert(r, BigDecimal.valueOf(calcArea(r)))).collect(Collectors.toList());
+        return rooms.stream()
+                .map(r -> RoomTotalDTO.convert(r, BigDecimal.valueOf(calcArea(r))))
+                .collect(Collectors.toList());
     }
 
 }
