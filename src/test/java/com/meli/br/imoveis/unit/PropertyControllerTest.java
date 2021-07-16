@@ -1,33 +1,31 @@
 package com.meli.br.imoveis.unit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meli.br.imoveis.dto.RoomTotalDTO;
 import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.service.PropertyService;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 public class PropertyControllerTest {
 
     @Autowired
@@ -44,13 +42,15 @@ public class PropertyControllerTest {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
 
-        when(propertyService.calcArea(property)).thenReturn(new BigDecimal("450.0"));
+        when(propertyService.calcArea(any())).thenReturn(new BigDecimal("450.0"));
 
         mockMvc.perform(post("/property/area")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        ).andExpect(status().isOk())
+        .andExpect(jsonPath("$.area").value("450.0"));
+
     }
 
     @Test
@@ -58,13 +58,14 @@ public class PropertyControllerTest {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
 
-        when(propertyService.valueProperty(property)).thenReturn(new BigDecimal("45000.000"));
+        when(propertyService.valueProperty(any())).thenReturn(new BigDecimal("45000.0"));
 
         mockMvc.perform(post("/property/value")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json)
-        ).andExpect(status().isOk());
+        ).andExpect(status().isOk())
+        .andExpect(jsonPath("$.value").value("45000.0"));
     }
 
     @Test
@@ -72,13 +73,16 @@ public class PropertyControllerTest {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
 
-        when(propertyService.biggestRoom(property)).thenReturn(property.getRoomList().get(2));
+        when(propertyService.biggestRoom(any())).thenReturn(property.getRoomList().get(2));
 
         mockMvc.perform(post("/property/biggest")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json)
-        ).andExpect(status().isOk());
+        ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.roomName").value("Bedroom"))
+                .andExpect(jsonPath("$.roomWidth").value(16.0))
+                .andExpect(jsonPath("$.roomLength").value(10.0));
     }
 
     @Test
@@ -87,13 +91,16 @@ public class PropertyControllerTest {
         List<RoomTotalDTO> roomsTotal = createListRoomTotal();
         String json = mapper.writeValueAsString(property);
 
-        when(propertyService.getRoomsWithAreaTotal(property)).thenReturn(roomsTotal);
+        when(propertyService.getRoomsWithAreaTotal(any())).thenReturn(roomsTotal);
+        String jsonList = mapper.writeValueAsString(roomsTotal);
 
         mockMvc.perform(post("/property/rooms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(json)
-        ).andExpect(status().isOk());
+        ).andExpect(status().isOk())
+                .andExpect(content().json(jsonList));
+
     }
 
     private Property createProperty() {
