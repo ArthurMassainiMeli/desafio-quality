@@ -7,10 +7,7 @@ import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.repository.DistrictRepository;
 import com.meli.br.imoveis.service.PropertyService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,12 +55,13 @@ public class PropertyIntegrationTest {
     }
 
     @AfterAll
-    public void restoreDb() throws Exception {
+    public void restoreDb(){
         districtRepository.deleteAll();
     }
 
 
     @Test
+    @DisplayName("O endpoint /property/area deve retornar a área corretamente.")
     public void shouldComputeArea() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -79,6 +77,7 @@ public class PropertyIntegrationTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/value deve retornar o valor da propiedade corretamente.")
     public void shouldReturnCorrectValueOfProperty() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -94,6 +93,7 @@ public class PropertyIntegrationTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/biggest deve retornar o maior cômodo.")
     public void shouldReturnTheBiggestRoom() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -111,6 +111,7 @@ public class PropertyIntegrationTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/rooms deve retornar uma lista de cômodos com sua área.")
     public void shouldReturnListOfRoomsWithArea() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);

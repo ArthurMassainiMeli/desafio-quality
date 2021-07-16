@@ -7,6 +7,7 @@ import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.service.PropertyService;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class PropertyControllerTest {
     private ObjectMapper mapper;
 
     @Test
+    @DisplayName("O endpoint /property/area deve retornar o status 200.")
     public void shouldComputeArea() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -54,6 +56,7 @@ public class PropertyControllerTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/value deve retornar o status 200.")
     public void shouldComputeValue() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -68,6 +71,7 @@ public class PropertyControllerTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/biggest deve retornar o status 200.")
     public void shouldFindBiggestRoom() throws Exception {
         Property property = createProperty();
         String json = mapper.writeValueAsString(property);
@@ -82,6 +86,7 @@ public class PropertyControllerTest {
     }
 
     @Test
+    @DisplayName("O endpoint /property/rooms deve retornar o status 200.")
     public void shouldFindAreasRoom() throws Exception {
         Property property = createProperty();
         List<RoomTotalDTO> roomsTotal = createListRoomTotal();

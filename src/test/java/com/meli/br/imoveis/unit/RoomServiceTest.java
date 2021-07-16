@@ -3,6 +3,7 @@ package com.meli.br.imoveis.unit;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.service.RoomService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ public class RoomServiceTest {
 
 
     @Test
+    @DisplayName("Deve retornar a área do cômodo.")
     public void givenRoomShouldReturnTotalArea(){
 
         Room room = new Room("Test",14.0,10.0);
