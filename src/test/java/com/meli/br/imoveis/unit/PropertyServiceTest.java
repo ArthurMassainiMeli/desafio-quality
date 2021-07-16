@@ -56,7 +56,7 @@ public class PropertyServiceTest {
     @Test
     public void givenPropertyWithRoomsShouldReturnTotalArea(){
 
-
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
 
         Mockito.when(roomService.calcArea(rooms.get(0))).thenReturn(140.0);
 
@@ -76,6 +76,8 @@ public class PropertyServiceTest {
     @DisplayName("Retorna area total 0 se a propiedade não tiver salas.")
     public void givenPropertyWithoutRoomsShouldReturnTotalArea(){
 
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
+
         List<Room> rooms = List.of();
 
         Property property = new Property("Test","NORTH",rooms);
@@ -89,25 +91,26 @@ public class PropertyServiceTest {
     @Test
     public void successWhenDistrictExistInRepository(){
 
-        Mockito.when(districtRepository.findById(property.getPropDistrict())).thenReturn(Optional.of(new District("NORTH", new BigDecimal("144444.00"))));
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
 
-        boolean isValid = propertyService.isValidDistrict(property);
-        Assertions.assertTrue(isValid);
+        Assertions.assertDoesNotThrow(() -> propertyService.validateDistrict(property));
 
     }
 
     @Test
     public void failWhenDistrictNotExistInRepository(){
 
-        Mockito.when(districtRepository.findById(property.getPropDistrict()))
-                .thenReturn(Optional.empty());
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(false);
 
-        Assertions.assertThrows(NoSuchElementException.class,() -> propertyService.isValidDistrict(property));
+
+        Assertions.assertThrows(NoSuchElementException.class,() -> propertyService.validateDistrict(property));
 
     }
 
     @Test
     public void shouldReturnTheBiggestRoom(){
+
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
 
         Mockito.when(roomService.calcArea(rooms.get(0))).thenReturn(140.0);
 
@@ -123,7 +126,9 @@ public class PropertyServiceTest {
     @Test
     public void successWhenCauclValuePerMeter(){
 
-        Mockito.when(districtRepository.findById(property.getPropDistrict())).thenReturn(Optional.of(new District("NORTH", new BigDecimal("100.00"))));
+        Mockito.when(districtRepository.getById(property.getPropDistrict())).thenReturn(new District("NORTH", new BigDecimal("100.00")));
+
+        Mockito.when(districtRepository.existsById(property.getPropDistrict())).thenReturn(true);
 
         Mockito.when(roomService.calcArea(rooms.get(0))).thenReturn(140.0);
 

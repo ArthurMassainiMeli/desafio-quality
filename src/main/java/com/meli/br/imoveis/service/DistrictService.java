@@ -5,6 +5,8 @@ import com.meli.br.imoveis.repository.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+
 @Service
 public class DistrictService {
 
@@ -16,6 +18,12 @@ public class DistrictService {
     }
 
     public District save(District district){
-        return districtRepository.save(district);
+
+        if(!districtRepository.existsById(district.getName())){
+            return districtRepository.save(district);
+        };
+
+        throw new EntityExistsException("Bairro já cadastrado");
+
     }
 }
