@@ -46,7 +46,7 @@ public class ApiExceptionControllerAdvice {
     public ResponseEntity<ExceptionDTO> defaultHandler(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ExceptionDTO("Requisição mal formatada.", HttpStatus.BAD_REQUEST.value()));
+                .body(new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
