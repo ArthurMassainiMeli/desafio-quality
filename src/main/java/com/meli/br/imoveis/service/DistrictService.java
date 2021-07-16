@@ -21,7 +21,7 @@ public class DistrictService {
 
         if(!districtRepository.existsById(district.getName())){
             return districtRepository.save(district);
-        };
+        }
 
         throw new EntityExistsException("Bairro já cadastrado");
 
