@@ -17,13 +17,11 @@ public class DistrictService {
         this.districtRepository = districtRepository;
     }
 
-    public District save(District district){
+    public District save(District district) {
 
-        if(!districtRepository.existsById(district.getName())){
+        if (!districtRepository.existsById(district.getName())) {
             return districtRepository.save(district);
         }
-
         throw new EntityExistsException("Bairro já cadastrado");
-
     }
 }

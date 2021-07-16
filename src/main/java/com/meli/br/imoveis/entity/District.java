@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class District {
 
     @Id
-    @Size(max = 45, message = "O nome bairro não pode exceder 45 caracteres.")
     @NotNull
     private String name;
 

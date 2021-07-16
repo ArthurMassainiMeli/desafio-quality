@@ -24,14 +24,15 @@ public class ApiExecprtionControllerAdvice {
         Map<String, String> errors = new HashMap<>();
 
         e.getBindingResult().getAllErrors().forEach((error) -> {
-
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
 
         });
 
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity
+                .badRequest()
+                .body(errors);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -46,7 +47,7 @@ public class ApiExecprtionControllerAdvice {
     public ResponseEntity<ExceptionDTO> defaultHandler(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ExceptionDTO("Requisição mal formatada.", HttpStatus.BAD_REQUEST.value()));
+                .body(new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -54,6 +55,8 @@ public class ApiExecprtionControllerAdvice {
 
         String msg = e.getMethod() + " não suportado para essa rota!";
 
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED.value()).body(new ExceptionDTO(msg, HttpStatus.METHOD_NOT_ALLOWED.value()));
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED.value())
+                .body(new ExceptionDTO(msg, HttpStatus.METHOD_NOT_ALLOWED.value()));
     }
 }

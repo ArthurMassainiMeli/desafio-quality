@@ -24,6 +24,7 @@ public class Property {
     private String propName;
 
     @NotBlank(message = "O bairro não pode estar vazio.")
+    @Size(max = 45, message = "O nome bairro não pode exceder 45 caracteres.")
     @JsonAlias("prop_district")
     private String propDistrict;
 
