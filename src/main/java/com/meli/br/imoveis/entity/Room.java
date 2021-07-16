@@ -36,10 +36,14 @@ public class Room {
     @JsonIgnore
     private Property property;
 
-    public Room( String roomName, double roomWidth, double roomLength) {
+    public Room(String roomName, double roomWidth, double roomLength) {
         this.roomName = roomName;
         this.roomWidth = roomWidth;
         this.roomLength = roomLength;
+    }
+
+    public Room() {
+
     }
 
     public long getId() {
