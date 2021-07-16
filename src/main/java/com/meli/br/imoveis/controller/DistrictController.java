@@ -2,6 +2,7 @@ package com.meli.br.imoveis.controller;
 
 import com.meli.br.imoveis.entity.District;
 import com.meli.br.imoveis.service.DistrictService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class DistrictController {
         this.districtService = districtService;
     }
 
+    @ApiOperation(value = "Funcionalidade para cadastrar um bairro")
     @PostMapping
     public ResponseEntity<District> save(@Valid @RequestBody District district){
         return ResponseEntity.status(HttpStatus.CREATED).body(districtService.save(district));
