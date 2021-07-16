@@ -17,7 +17,6 @@ import java.util.NoSuchElementException;
 @Service
 public class PropertyService {
 
-
     private final PropertyRepository propertyRepository;
     private final RoomService roomService;
     private final DistrictRepository districtRepository;
@@ -29,42 +28,38 @@ public class PropertyService {
         this.districtRepository = districtRepository;
     }
 
-    public BigDecimal calcArea(Property property){
+    public BigDecimal calcArea(Property property) {
         validateDistrict(property);
         double s = property.getRoomList().stream().mapToDouble(roomService::calcArea).sum();
         return BigDecimal.valueOf(s);
     }
 
-    public BigDecimal valueProperty(Property property){
-
+    public BigDecimal valueProperty(Property property) {
         District district = getValidDistrict(property);
         return district.getValueDistrictM2().multiply(calcArea(property));
-
     }
 
-    public Room biggestRoom(Property property){
+    public Room biggestRoom(Property property) {
         validateDistrict(property);
-        return property.getRoomList().stream().max(Comparator.comparing(roomService::calcArea)).orElseThrow(NoSuchElementException::new);
+        return property.getRoomList()
+                .stream()
+                .max(Comparator.comparing(roomService::calcArea))
+                .orElseThrow(() -> new NoSuchElementException("Não possui lista de cômodos"));
     }
 
-    public void validateDistrict(Property property){
-
-        if(!districtRepository.existsById(property.getPropDistrict())){
+    public void validateDistrict(Property property) {
+        if (!districtRepository.existsById(property.getPropDistrict())) {
             throw new NoSuchElementException("Bairro não encontrado");
         }
-
     }
 
-    public District getValidDistrict(Property property){
-
+    public District getValidDistrict(Property property) {
         validateDistrict(property);
         return districtRepository.getById(property.getPropDistrict());
-
     }
 
-    public List<RoomTotalDTO> getRoomsWithAreaTotal(Property property){
+    public List<RoomTotalDTO> getRoomsWithAreaTotal(Property property) {
         validateDistrict(property);
-       return roomService.getRoomsWithAreaTotal(property.getRoomList());
+        return roomService.getRoomsWithAreaTotal(property.getRoomList());
     }
-
 }

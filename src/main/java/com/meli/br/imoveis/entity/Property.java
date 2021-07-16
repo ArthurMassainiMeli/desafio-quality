@@ -18,12 +18,13 @@ public class Property {
     private long id;
 
     @NotBlank(message = "O nome da propriedade não pode estar vazio.")
-    @Size(max = 30, message = "O comprimento do nome não pode exceder 30 caracteres")
+    @Size(max = 45, message = "O comprimento do nome não pode exceder 30 caracteres")
     @Pattern(regexp = "^[A-Z]{1}.+", message = "O nome da propriedade deve começar com uma letra maiúscula.")
     @JsonAlias("prop_name")
     private String propName;
 
     @NotBlank(message = "O bairro não pode estar vazio.")
+    @Size(max = 30, message = "O comprimento do nome não pode exceder 45 caracteres")
     @JsonAlias("prop_district")
     private String propDistrict;
 
