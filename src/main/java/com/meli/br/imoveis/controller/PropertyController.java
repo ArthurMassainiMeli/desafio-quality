@@ -4,7 +4,6 @@ import com.meli.br.imoveis.dto.RoomTotalDTO;
 import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.service.PropertyService;
-import com.meli.br.imoveis.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +20,10 @@ import java.util.List;
 public class PropertyController {
 
     private final PropertyService service;
-    private final RoomService roomService;
 
     @Autowired
-    public PropertyController(PropertyService service, RoomService roomService) {
+    public PropertyController(PropertyService service) {
         this.service = service;
-        this.roomService = roomService;
     }
 
     @PostMapping("/area")
@@ -46,7 +43,7 @@ public class PropertyController {
 
     @PostMapping("/rooms")
     public ResponseEntity<List<RoomTotalDTO>> roomsAreas(@Valid @RequestBody Property property){
-        return ResponseEntity.ok().body(roomService.getRoomsWithAreaTotal(property));
+        return ResponseEntity.ok().body(service.getRoomsWithAreaTotal(property));
     }
 
 }

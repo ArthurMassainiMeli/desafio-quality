@@ -1,7 +1,6 @@
 package com.meli.br.imoveis.service;
 
 import com.meli.br.imoveis.dto.RoomTotalDTO;
-import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class RoomService {
         return r.getRoomWidth() * r.getRoomLength();
     }
 
-    public List<RoomTotalDTO> getRoomsWithAreaTotal(Property property){
-        return property.getRoomList().stream().map(r -> RoomTotalDTO.convert(r, BigDecimal.valueOf(calcArea(r)))).collect(Collectors.toList());
+    public List<RoomTotalDTO> getRoomsWithAreaTotal(List<Room> rooms){
+        return rooms.stream().map(r -> RoomTotalDTO.convert(r, BigDecimal.valueOf(calcArea(r)))).collect(Collectors.toList());
     }
 
 }
