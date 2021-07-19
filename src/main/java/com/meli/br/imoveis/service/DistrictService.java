@@ -18,8 +18,8 @@ public class DistrictService {
     }
 
     public District save(District district) {
-
-        if (!districtRepository.existsById(district.getName())) {
+        if (!districtRepository.existsById(district.getName().toUpperCase())) {
+            district.setName(district.getName().toUpperCase());
             return districtRepository.save(district);
         }
         throw new EntityExistsException("Bairro já cadastrado");
