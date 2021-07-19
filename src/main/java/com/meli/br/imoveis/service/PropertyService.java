@@ -5,7 +5,6 @@ import com.meli.br.imoveis.entity.District;
 import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.repository.DistrictRepository;
-import com.meli.br.imoveis.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +16,12 @@ import java.util.NoSuchElementException;
 @Service
 public class PropertyService {
 
-    private final PropertyRepository propertyRepository;
+
     private final RoomService roomService;
     private final DistrictRepository districtRepository;
 
     @Autowired
-    public PropertyService(PropertyRepository propertyRepository, RoomService roomService, DistrictRepository districtRepository) {
-        this.propertyRepository = propertyRepository;
+    public PropertyService( RoomService roomService, DistrictRepository districtRepository) {
         this.roomService = roomService;
         this.districtRepository = districtRepository;
     }

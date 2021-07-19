@@ -4,7 +4,6 @@ import com.meli.br.imoveis.entity.District;
 import com.meli.br.imoveis.entity.Property;
 import com.meli.br.imoveis.entity.Room;
 import com.meli.br.imoveis.repository.DistrictRepository;
-import com.meli.br.imoveis.repository.PropertyRepository;
 import com.meli.br.imoveis.service.PropertyService;
 import com.meli.br.imoveis.service.RoomService;
 import org.junit.jupiter.api.Assertions;
@@ -28,9 +27,6 @@ public class PropertyServiceTest {
     private RoomService roomService;
 
     @MockBean
-    private PropertyRepository propertyRepository;
-
-    @MockBean
     private DistrictRepository districtRepository;
 
     Property property;
@@ -39,7 +35,7 @@ public class PropertyServiceTest {
 
     @BeforeEach
     public void setup(){
-        propertyService = new PropertyService(propertyRepository,roomService, districtRepository);
+        propertyService = new PropertyService(roomService, districtRepository);
 
         rooms = List.of(
                 new Room("Test",14.0,10.0),
